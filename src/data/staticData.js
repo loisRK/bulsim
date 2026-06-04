@@ -8,9 +8,9 @@ export const TEMPLE = {
   name:        '불심정사',
   mountain:    '거마산',
   fullName:    '거마산 불심정사',
-  englishName: 'BULSHIMJEONGSA TEMPLE',
+  englishName: 'BULSIMJEONGSA TEMPLE',
   address:     '인천광역시 남동구 무네미로312번길 30',
-  tel:         '010-7507-1439',
+  tel:         '032-466-8475',
   email:       '이메일을 입력해 주세요',
   greeting:    '불심정사는 거마산 자락에 위치한 청정 도량으로, 부처님의 가르침 아래 대중과 함께 수행하고 정진하는 공간입니다.',
   greetingLong: `불심정사를 찾아주신 여러분을 진심으로 환영합니다.
