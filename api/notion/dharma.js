@@ -1,24 +1,19 @@
 /**
  * GET /api/notion/dharma
- * 오늘의 법문 조회 — Notion DB에서 가장 최근 공개 항목 반환
- *
- * Notion DB 필수 속성:
- *   제목(Title), 내용(Text), 날짜(Date), 공개(Checkbox)
+ * 오늘의 법문 조회
  */
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end()
-  if (req.method !== 'GET')    return res.status(405).json({ error: 'Method not allowed' })
+  if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })
 
   const token = process.env.NOTION_TOKEN
   const dbId  = process.env.NOTION_DHARMA_DB_ID
 
-  // 환경변수 미설정 시 디버그 정보 반환 (확인 후 null로 되돌릴 것)
   if (!token || !dbId) {
     return res.status(200).json({
       debug: true,
       hasToken: !!token,
       hasDbId: !!dbId,
-      tokenPrefix: token ? token.substring(0, 10) + '...' : 'missing',
     })
   }
 

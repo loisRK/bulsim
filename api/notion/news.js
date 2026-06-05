@@ -1,13 +1,10 @@
 /**
  * GET /api/notion/news
  * 사찰 소식 목록 조회
- *
- * Notion DB 필수 속성:
- *   제목(Title), 내용(Text), 날짜(Date), 공개(Checkbox)
  */
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end()
-  if (req.method !== 'GET')    return res.status(405).json({ error: 'Method not allowed' })
+  if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })
 
   const token = process.env.NOTION_TOKEN
   const dbId  = process.env.NOTION_NEWS_DB_ID

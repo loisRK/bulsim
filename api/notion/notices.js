@@ -1,13 +1,10 @@
 /**
  * GET /api/notion/notices
- * 공지사항 목록 조회 — 분류별로 그룹핑하여 반환
- *
- * Notion DB 필수 속성:
- *   제목(Title), 내용(Text), 분류(Select: 사중/교육/봉사), 날짜(Date), 공개(Checkbox)
+ * 공지사항 목록 조회
  */
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end()
-  if (req.method !== 'GET')    return res.status(405).json({ error: 'Method not allowed' })
+  if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' })
 
   const token = process.env.NOTION_TOKEN
   const dbId  = process.env.NOTION_NOTICES_DB_ID
@@ -32,10 +29,8 @@ export default async function handler(req, res) {
       }
     )
 
-    const data   = await response.json()
-    const pages  = data.results ?? []
-
-    // 분류별 그룹핑
+    const data  = await response.json()
+    const pages = data.results ?? []
     const groups = {}
     const BADGE_MAP = { '사중': '사중', '교육': '교육', '봉사': '봉사' }
 

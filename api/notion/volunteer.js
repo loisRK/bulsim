@@ -1,22 +1,16 @@
 /**
  * POST /api/notion/volunteer
- * 자원봉사 신청 → Notion DB에 새 항목 생성
- *
- * Request body: { name, phone, type, date, message }
- *
- * Notion DB 필수 속성:
- *   성함(Title), 연락처(Text), 봉사항목(Select), 희망날짜(Date), 메모(Text), 처리상태(Select)
+ * 자원봉사 신청 저장
  */
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end()
-  if (req.method !== 'POST')   return res.status(405).json({ error: 'Method not allowed' })
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
   const token = process.env.NOTION_TOKEN
   const dbId  = process.env.NOTION_VOLUNTEER_DB_ID
 
-  // 환경변수 미설정 시에도 성공 응답 (프론트에서 완료 화면 표시)
   if (!token || !dbId) {
-    return res.status(200).json({ result: 'ok', note: 'Notion 미연동 — 로컬 저장만 됨' })
+    return res.status(200).json({ result: 'ok', note: 'Notion 미연동' })
   }
 
   const { name, phone, type, date, message } = req.body
@@ -50,7 +44,6 @@ export default async function handler(req, res) {
     res.status(200).json({ result: 'ok' })
   } catch (err) {
     console.error('[volunteer API]', err)
-    // 오류여도 사용자에게는 성공 응답 (UX 우선)
     res.status(200).json({ result: 'ok', error: err.message })
   }
 }
