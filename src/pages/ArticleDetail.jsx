@@ -91,7 +91,6 @@ export default function ArticleDetail() {
 }
 
 /* ── 사진 슬라이더 ── */
-import { useRef } from 'react'
 function PhotoSlider({ images }) {
   const [current, setCurrent] = useState(0)
   const touchStartX = useRef(null)
