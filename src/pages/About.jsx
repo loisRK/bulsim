@@ -16,7 +16,7 @@ export default function About() {
       <section
         className="about-section"
         id="hall"
-        style={{ background: "#fff", textAlign: "left" }}
+        style={{ background: "#fff" }}
       >
         <div className="about-section-inner">
           <h2>대웅전</h2>
@@ -28,12 +28,18 @@ export default function About() {
               maxWidth: 700,
               borderRadius: 6,
               marginBottom: 20,
+              textAlign: "left",
             }}
           />
           <img
             src="/photo/IMG_5242.jpeg"
             alt="신도 법회"
-            style={{ width: "100%", maxWidth: 700, borderRadius: 6 }}
+            style={{
+              width: "100%",
+              maxWidth: 700,
+              borderRadius: 6,
+              textAlign: "left",
+            }}
           />
         </div>
       </section>
