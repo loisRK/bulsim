@@ -20,27 +20,18 @@ export default function About() {
       >
         <div className="about-section-inner">
           <h2>대웅전</h2>
-          <img
-            src="/photo/IMG_5290.jpeg"
-            alt="대웅전"
-            style={{
-              width: "100%",
-              maxWidth: 700,
-              borderRadius: 6,
-              marginBottom: 20,
-              textAlign: "left",
-            }}
-          />
-          <img
-            src="/photo/IMG_5242.jpeg"
-            alt="신도 법회"
-            style={{
-              width: "100%",
-              maxWidth: 700,
-              borderRadius: 6,
-              textAlign: "left",
-            }}
-          />
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 20 }}>
+            <img
+              src="/photo/IMG_5290.jpeg"
+              alt="대웅전"
+              style={{ width: "100%", maxWidth: 700, borderRadius: 6 }}
+            />
+            <img
+              src="/photo/IMG_5242.jpeg"
+              alt="신도 법회"
+              style={{ width: "100%", maxWidth: 700, borderRadius: 6 }}
+            />
+          </div>
         </div>
       </section>
 
