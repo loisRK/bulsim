@@ -20,16 +20,12 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const now = new Date().toISOString()
-
-    // undefined 프로퍼티 제외
     const properties = {
-      '성함':     { title:     [{ text: { content: name } }] },
+      'Name':     { title:     [{ text: { content: name } }] },
       '연락처':   { rich_text: [{ text: { content: phone } }] },
       '봉사항목': { select:    { name: type } },
       '메모':     { rich_text: [{ text: { content: message || '' } }] },
       '처리상태': { select:    { name: '신청' } },
-      '신청일시': { date:      { start: now } },
     }
     if (date) properties['희망날짜'] = { date: { start: date } }
 
