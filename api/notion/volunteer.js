@@ -20,6 +20,19 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    const now = new Date().toISOString()
+
+    // undefined 프로퍼티 제외
+    const properties = {
+      '성함':     { title:     [{ text: { content: name } }] },
+      '연락처':   { rich_text: [{ text: { content: phone } }] },
+      '봉사항목': { select:    { name: type } },
+      '메모':     { rich_text: [{ text: { content: message || '' } }] },
+      '처리상태': { select:    { name: '신청' } },
+      '신청일시': { date:      { start: now } },
+    }
+    if (date) properties['희망날짜'] = { date: { start: date } }
+
     const response = await fetch('https://api.notion.com/v1/pages', {
       method: 'POST',
       headers: {
@@ -27,23 +40,16 @@ module.exports = async function handler(req, res) {
         'Content-Type':   'application/json',
         'Notion-Version': '2022-06-28',
       },
-      body: JSON.stringify({
-        parent: { database_id: dbId },
-        properties: {
-          '성함':     { title:     [{ text: { content: name } }] },
-          '연락처':   { rich_text: [{ text: { content: phone } }] },
-          '봉사항목': { select:    { name: type } },
-          '희망날짜': date ? { date: { start: date } } : undefined,
-          '메모':     { rich_text: [{ text: { content: message || '' } }] },
-          '처리상태': { select:    { name: '신청' } },
-        },
-      }),
+      body: JSON.stringify({ parent: { database_id: dbId }, properties }),
     })
 
-    if (!response.ok) throw new Error(`Notion API ${response.status}`)
+    if (!response.ok) {
+      const errBody = await response.json().catch(() => ({}))
+      throw new Error(`Notion API ${response.status}: ${errBody.message ?? ''}`)
+    }
     res.status(200).json({ result: 'ok' })
   } catch (err) {
     console.error('[volunteer API]', err)
-    res.status(200).json({ result: 'ok', error: err.message })
+    res.status(500).json({ error: err.message })
   }
 }

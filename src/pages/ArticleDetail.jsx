@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+import Icon from '../components/Icon'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 
 export default function ArticleDetail() {
@@ -132,9 +133,11 @@ function PhotoSlider({ images }) {
   )
 }
 
-/* ── 첨부파일 다운로드 섹션 ── */
+/* ── 첨부파일 드롭다운 섹션 ── */
 function AttachmentSection({ propFiles, blockFiles }) {
-  // 프로퍼티 방식 + 블록 방식 합산, 중복 URL 제거
+  const [open, setOpen] = useState(false)
+  const bodyRef = useRef(null)
+
   const all = [
     ...propFiles,
     ...blockFiles.map(b => ({ name: b.name, url: b.url })),
@@ -144,23 +147,37 @@ function AttachmentSection({ propFiles, blockFiles }) {
 
   return (
     <div className="attachment-section">
-      <div className="attachment-title">📎 첨부파일</div>
-      <ul className="attachment-list">
-        {all.map((f, i) => (
-          <li key={i}>
-            <a
-              href={f.url}
-              download
-              target="_blank"
-              rel="noopener noreferrer"
-              className="attachment-item"
-            >
-              <span className="attachment-icon">⬇</span>
-              <span className="attachment-name">{f.name}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
+      <button
+        className={`attachment-toggle${open ? ' open' : ''}`}
+        onClick={() => setOpen(v => !v)}
+        type="button"
+      >
+        <span className="attachment-toggle-left">
+          <Icon name="paperclip" size="sm" />
+          <span>첨부파일</span>
+          <span className="attachment-count">{all.length}</span>
+        </span>
+        <Icon name={open ? 'chevron-up' : 'chevron-down'} size="sm" />
+      </button>
+
+      {open && (
+        <ul className="attachment-list" ref={bodyRef}>
+          {all.map((f, i) => (
+            <li key={i}>
+              <a
+                href={f.url}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                className="attachment-item"
+              >
+                <Icon name="download" size="sm" />
+                <span className="attachment-name">{f.name}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }
