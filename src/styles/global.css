@@ -729,12 +729,31 @@ ul, li { list-style: none; }
 .dharma-label { font-size: 12px; letter-spacing: 4px; color: var(--gold-lt); margin-bottom: 10px; text-align: center; }
 .dharma-title { font-size: 22px; font-weight: 800; color: #fff; text-align: center; margin-bottom: 28px; }
 .dharma-card {
-  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
-  border-left: 4px solid var(--gold-lt); border-radius: 6px; padding: 32px 36px; color: #fff;
+  position: relative; overflow: hidden;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  border-top: 2px solid var(--gold-lt); border-radius: 8px;
+  padding: 44px 48px 32px; color: #fff; text-align: center;
 }
-.dharma-quote { font-size: 32px; color: var(--gold-lt); margin-bottom: 12px; line-height: 1; }
-.dharma-text  { font-size: 16px; line-height: 1.85; color: rgba(255,255,255,0.9); margin-bottom: 20px; }
-.dharma-meta  { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.dharma-card::before {
+  content: '\201C';
+  position: absolute; top: -10px; left: 24px;
+  font-size: 140px; font-family: Georgia, serif;
+  color: var(--gold-lt); opacity: 0.15; line-height: 1;
+  pointer-events: none; user-select: none;
+}
+.dharma-card::after {
+  content: '\201D';
+  position: absolute; bottom: 28px; right: 24px;
+  font-size: 140px; font-family: Georgia, serif;
+  color: var(--gold-lt); opacity: 0.10; line-height: 1;
+  pointer-events: none; user-select: none;
+}
+.dharma-text  {
+  font-size: 18px; font-weight: 600; line-height: 2;
+  color: rgba(255,255,255,0.93); margin-bottom: 24px;
+  letter-spacing: 0.04em; position: relative;
+}
+.dharma-meta  { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; position: relative; }
 .dharma-source { font-size: 13px; color: var(--gold-lt); }
 .dharma-date   { font-size: 12px; color: rgba(255,255,255,0.4); }
 

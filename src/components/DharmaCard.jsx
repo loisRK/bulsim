@@ -11,7 +11,6 @@ export default function DharmaCard() {
         <div className="dharma-label">TODAY'S DHARMA</div>
         <h2 className="dharma-title">주지스님 오늘의 법문</h2>
         <div className="dharma-card">
-          <div className="dharma-quote">"</div>
           <p className="dharma-text">{data?.text}</p>
           <div className="dharma-meta">
             <span className="dharma-source">{data?.source}</span>
