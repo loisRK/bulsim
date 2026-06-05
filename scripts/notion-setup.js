@@ -41,9 +41,11 @@ const SCHEMAS = {
 
   // 사찰소식 DB
   news: {
-    '내용':  { rich_text: {} },
-    '날짜':  { date: {} },
-    '공개':  { checkbox: {} },
+    '내용':   { rich_text: {} },
+    '본문':   { rich_text: {} },
+    '사진URL': { url: {} },
+    '날짜':   { date: {} },
+    '공개':   { checkbox: {} },
   },
 
   // 자원봉사신청 DB

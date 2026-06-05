@@ -1,14 +1,18 @@
+import { useState } from 'react'
 import PageBanner from '../components/PageBanner'
+import NewsModal  from '../components/NewsModal'
 import { useNotion } from '../hooks/useNotion'
 
 export default function News() {
   const { data: news, loading } = useNotion('/api/notion/news', null)
+  const [selected, setSelected] = useState(null)
 
   return (
     <>
       <PageBanner title="사찰 소식" breadcrumb="" />
       <section className="section" style={{ background: '#fff' }}>
         <div className="section-inner" style={{ maxWidth: 900 }}>
+
           {loading && (
             <p style={{ color: 'var(--gray)', padding: '40px 0', textAlign: 'center' }}>
               불러오는 중...
@@ -19,9 +23,14 @@ export default function News() {
               등록된 소식이 없습니다.
             </p>
           )}
+
           <div className="news-list">
             {(news || []).map((n, i) => (
-              <div key={i} className="news-item">
+              <div
+                key={i}
+                className="news-item news-item-clickable"
+                onClick={() => setSelected(n)}
+              >
                 <div className="news-date">
                   <div className="day">{n.day}</div>
                   <div className="month">{n.month}</div>
@@ -30,11 +39,18 @@ export default function News() {
                   <h4>{n.title}</h4>
                   <p>{n.desc}</p>
                 </div>
+                <div className="news-arrow">›</div>
               </div>
             ))}
           </div>
+
         </div>
       </section>
+
+      {/* 모달 */}
+      {selected && (
+        <NewsModal item={selected} onClose={() => setSelected(null)} />
+      )}
     </>
   )
 }
