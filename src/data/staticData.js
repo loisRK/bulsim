@@ -54,10 +54,10 @@ export const NAV = [
     label: '불심정사 소개',
     href:  '/about',
     sub: [
-      { label: '인사말',     href: '/about#greeting' },
-      { label: '역사',       href: '/about#history' },
-      { label: '대웅전',     href: '/about#hall' },
-      { label: '오시는 길',  href: '/about#location' },
+      { label: '인사말',    href: '/about#greeting' },
+      { label: '대웅전',    href: '/about#hall' },
+      { label: '역사',      href: '/about#history' },
+      { label: '오시는 길', href: '/about#location' },
     ],
   },
   {
