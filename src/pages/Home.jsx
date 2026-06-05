@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
 import HeroSlider from '../components/HeroSlider'
 import DharmaCard from '../components/DharmaCard'
+import Icon from '../components/Icon'
 import { useNotion } from '../hooks/useNotion'
 import { QUICK_LINKS, NOTICES, SCHEDULE } from '../data/staticData'
 
@@ -18,7 +19,7 @@ export default function Home() {
         <div className="quick-inner">
           {QUICK_LINKS.map(q => (
             <Link key={q.href} to={q.href} className="quick-item">
-              <div className="quick-icon">{q.icon}</div>
+              <div className="quick-icon"><Icon name={q.icon} size="lg" /></div>
               <div className="quick-label">{q.label}</div>
               <div className="quick-sub">{q.sub}</div>
             </Link>
@@ -77,7 +78,7 @@ export default function Home() {
                   <div className="home-event-thumb">
                     {item.cover
                       ? <img src={item.cover} alt={item.title} />
-                      : <div className="home-event-placeholder">🪷</div>
+                      : <div className="home-event-placeholder"><Icon name="lotus" size="xl" /></div>
                     }
                   </div>
                   <div className="home-event-info">

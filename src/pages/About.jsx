@@ -1,4 +1,5 @@
 import PageBanner from "../components/PageBanner";
+import Icon from "../components/Icon";
 import { TEMPLE, ABOUT_HISTORY } from "../data/staticData";
 
 export default function About() {
@@ -63,14 +64,15 @@ export default function About() {
       >
         <div className="about-section-inner">
           <h2>오시는 길</h2>
-          <p style={{ fontSize: 14, color: "var(--gray)", marginBottom: 24 }}>
-            📍 {TEMPLE.address}
+          <p className="location-address">
+            <Icon name="location" size="sm" className="icon-inline" />
+            {TEMPLE.address}
           </p>
           <div className="transport-list">
             {TEMPLE.transport.map((t, i) => (
               <div key={i} className="transport-card">
                 <div className="transport-card-head">
-                  <span className="t-icon">{t.icon}</span>
+                  <span className="t-icon"><Icon name={t.icon} size="md" /></span>
                   <span>{t.label}</span>
                 </div>
                 <div className="transport-steps">
@@ -82,7 +84,10 @@ export default function About() {
                   ))}
                 </div>
                 {t.info && (
-                  <div className="transport-info-badge">⏱ {t.info}</div>
+                  <div className="transport-info-badge">
+                    <Icon name="clock" size="sm" className="icon-inline" />
+                    {t.info}
+                  </div>
                 )}
               </div>
             ))}

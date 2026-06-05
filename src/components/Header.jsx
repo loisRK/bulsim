@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import Icon from './Icon'
 import { NAV, TEMPLE } from '../data/staticData'
 
 export default function Header() {
@@ -40,10 +41,10 @@ export default function Header() {
 
         <button
           id="menu-btn"
-          aria-label="메뉴"
+          aria-label={menuOpen ? '메뉴 닫기' : '메뉴 열기'}
           onClick={() => setMenuOpen(v => !v)}
         >
-          {menuOpen ? '✕' : '☰'}
+          <Icon name={menuOpen ? 'close' : 'menu'} size="lg" />
         </button>
       </div>
     </header>

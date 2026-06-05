@@ -23,31 +23,31 @@ export const TEMPLE = {
 합장 인사드립니다.`,
   transport: [
     {
-      icon: "🚇",
+      icon: "subway",
       label: "지하철 + 버스",
       steps: [
-        { step: "①", text: "1호선 <b>송내역</b> 하차" },
+        { step: "1", text: "1호선 <b>송내역</b> 하차" },
         {
-          step: "②",
+          step: "2",
           text: "송내역남부 정류장 → 버스 <b>14-1 · 47 · 16-1</b> 탑승",
         },
-        { step: "③", text: "<b>무내미마을</b> 정류장 하차 후 도보 5분" },
+        { step: "3", text: "<b>무내미마을</b> 정류장 하차 후 도보 5분" },
       ],
       info: "소요시간 약 17분 · 요금 1,500원",
     },
     {
-      icon: "🚌",
+      icon: "bus",
       label: "버스만 이용",
       steps: [
-        { step: "①", text: "인천대공원 정류장에서 <b>11 · 30번</b> 탑승" },
-        { step: "②", text: "<b>무내미마을</b> 정류장 하차 후 도보 5분" },
+        { step: "1", text: "인천대공원 정류장에서 <b>11 · 30번</b> 탑승" },
+        { step: "2", text: "<b>무내미마을</b> 정류장 하차 후 도보 5분" },
       ],
       info: "",
     },
     {
-      icon: "🚗",
+      icon: "car",
       label: "자가용",
-      steps: [{ step: "📍", text: "인천광역시 남동구 무네미로312번길 47" }],
+      steps: [{ step: "1", text: "인천광역시 남동구 무네미로312번길 47" }],
       info: "주차 가능 (사찰 앞 주차장)",
     },
   ],
@@ -85,15 +85,10 @@ export const NAV = [
 ];
 
 export const QUICK_LINKS = [
-  { icon: "🪷", label: "법회안내", sub: "매주 일요법회", href: "/schedule" },
-  { icon: "📋", label: "공지사항", sub: "사찰 공지 보기", href: "/notice" },
-  { icon: "🙏", label: "봉사신청", sub: "자원봉사 신청", href: "/volunteer" },
-  {
-    icon: "📍",
-    label: "오시는 길",
-    sub: "찾아오는 방법",
-    href: "/about#location",
-  },
+  { icon: "schedule",  label: "법회안내", sub: "매주 일요법회", href: "/schedule" },
+  { icon: "notice",    label: "공지사항", sub: "사찰 공지 보기", href: "/notice" },
+  { icon: "volunteer", label: "봉사신청", sub: "자원봉사 신청", href: "/volunteer" },
+  { icon: "location",  label: "오시는 길", sub: "찾아오는 방법", href: "/about#location" },
 ];
 
 export const SLIDES = [

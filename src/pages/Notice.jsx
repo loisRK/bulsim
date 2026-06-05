@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PageBanner from '../components/PageBanner'
+import Icon from '../components/Icon'
 import { useNotion } from '../hooks/useNotion'
 
 const PAGE_SIZE  = 10
@@ -104,7 +105,7 @@ export default function Notice() {
                   )}
                 </h2>
                 <div className="notice-search-bar board-search-bar">
-                  <span className="notice-search-icon">🔍</span>
+                  <span className="notice-search-icon"><Icon name="search" size="sm" /></span>
                   <input
                     type="text"
                     placeholder="검색어를 입력해주세요."
@@ -113,7 +114,9 @@ export default function Notice() {
                     className="notice-search-input"
                   />
                   {query && (
-                    <button className="notice-search-clear" onClick={() => { setQuery(''); setCurrentPage(1) }}>✕</button>
+                    <button type="button" className="notice-search-clear" onClick={() => { setQuery(''); setCurrentPage(1) }} aria-label="검색어 지우기">
+                      <Icon name="close" size="sm" />
+                    </button>
                   )}
                 </div>
               </div>

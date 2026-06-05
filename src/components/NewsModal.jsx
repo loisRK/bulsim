@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
+import Icon from './Icon'
 
 export default function NewsModal({ item, onClose }) {
   const [blocks,  setBlocks]  = useState([])
@@ -35,7 +36,9 @@ export default function NewsModal({ item, onClose }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={e => e.stopPropagation()}>
 
-        <button className="modal-close" onClick={onClose} aria-label="닫기">✕</button>
+        <button type="button" className="modal-close" onClick={onClose} aria-label="닫기">
+          <Icon name="close" size="md" />
+        </button>
 
         {/* 사진 슬라이더 */}
         {!loading && imageBlocks.length > 0 && (

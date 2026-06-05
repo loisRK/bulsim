@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PageBanner from '../components/PageBanner'
+import Icon from '../components/Icon'
 import { useNotion } from '../hooks/useNotion'
 
 export default function Events() {
@@ -65,7 +66,7 @@ function EventCard({ item, onClick }) {
       <div className="event-thumb">
         {item.cover
           ? <img src={item.cover} alt={item.title} />
-          : <div className="event-thumb-placeholder">🪷</div>
+          : <div className="event-thumb-placeholder"><Icon name="lotus" size="xl" /></div>
         }
       </div>
       <div className="event-card-info">
