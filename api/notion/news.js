@@ -40,7 +40,7 @@ module.exports = async function handler(req, res) {
       return {
         day:   String(date.getDate()).padStart(2, '0'),
         month: `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}`,
-        title: props['제목']?.title?.[0]?.plain_text ?? '',
+        title: (props['제목'] || props['Name'] || props['이름'])?.title?.[0]?.plain_text ?? '',
         desc:  props['내용']?.rich_text?.[0]?.plain_text ?? '',
       }
     })
