@@ -64,9 +64,8 @@ export const NAV = [
     label: '신행안내',
     href:  '/schedule',
     sub: [
-      { label: '법회 안내',    href: '/schedule' },
+      { label: '법회 일정',    href: '/schedule' },
       { label: '자원봉사 신청', href: '/volunteer' },
-      { label: '신도 활동',    href: '/notice' },
     ],
   },
   {
@@ -74,16 +73,7 @@ export const NAV = [
     href:  '/news',
     sub: [
       { label: '공지사항',  href: '/notice' },
-      { label: '사찰 일정', href: '/schedule' },
       { label: '주요 행사', href: '/events' },
-    ],
-  },
-  {
-    label: '불교 교육',
-    href:  '/education',
-    sub: [
-      { label: '교육 소개', href: '/education' },
-      { label: '명상 안내', href: '/education#meditation' },
     ],
   },
 ]
@@ -157,12 +147,6 @@ export const SCHEDULE = [
   { day: '음력 매월 24일', time: '10:00',          name: '관음재일',           tag: 'tag-gold',  label: '재일' },
 ]
 
-export const EDUCATION = [
-  { icon: '📖', title: '불교기초교육',    desc: '처음 불교를 접하는 분들을 위한 입문 과정입니다.',                       schedule: '매주 토요일 오전 10시' },
-  { icon: '🧘', title: '명상 클래스',     desc: '마음의 평안을 찾는 명상 수련 과정입니다. 초보자도 쉽게 따라할 수 있습니다.', schedule: '매주 수요일 오후 7시' },
-  { icon: '📜', title: '경전 공부',       desc: '반야심경, 금강경 등 주요 경전을 함께 읽고 그 의미를 탐구합니다.',          schedule: '매월 둘째·넷째 토요일' },
-  { icon: '🧒', title: '어린이 불교학교', desc: '어린이들이 부처님의 가르침을 즐겁게 배울 수 있는 프로그램입니다.',          schedule: '매주 일요일 법회 후' },
-]
 
 export const ABOUT_HISTORY = [
   { year: '창건', desc: '불심정사 창건' },

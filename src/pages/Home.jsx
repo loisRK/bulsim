@@ -1,12 +1,12 @@
-import { Link, useNavigate } from 'react-router-dom'
-import HeroSlider  from '../components/HeroSlider'
-import DharmaCard  from '../components/DharmaCard'
+import { Link } from 'react-router-dom'
+import HeroSlider from '../components/HeroSlider'
+import DharmaCard from '../components/DharmaCard'
 import { useNotion } from '../hooks/useNotion'
-import { QUICK_LINKS, NOTICES, NEWS, SCHEDULE } from '../data/staticData'
+import { QUICK_LINKS, NOTICES, SCHEDULE } from '../data/staticData'
 
 export default function Home() {
-  const { data: notices } = useNotion('/api/notion/notices', NOTICES)
-  const { data: news }    = useNotion('/api/notion/news',    NEWS)
+  const { data: notices, loading: noticesLoading } = useNotion('/api/notion/notices', NOTICES)
+  const { data: news,    loading: newsLoading }    = useNotion('/api/notion/news',    null)
 
   return (
     <>
@@ -35,23 +35,25 @@ export default function Home() {
             <h2 className="section-title">공지사항</h2>
             <Link to="/notice" className="more-btn">더보기 +</Link>
           </div>
-          <div className="notice-grid">
-            {(notices || NOTICES).map(n => (
-              <div key={n.id} className="notice-card">
-                <div className="notice-card-head">
-                  <span className="notice-badge">{n.badge}</span>
-                  <span>{n.title}</span>
+          {noticesLoading ? (
+            <p style={{ color: 'var(--gray)', padding: '20px 0' }}>불러오는 중...</p>
+          ) : (
+            <div className="notice-grid">
+              {(notices || []).map(n => (
+                <div key={n.id} className="notice-card">
+                  <div className="notice-card-head">
+                    <span className="notice-badge">{n.badge}</span>
+                    <span>{n.title}</span>
+                  </div>
+                  <ul className="notice-list">
+                    {n.items.map((item, i) => (
+                      <li key={i}><Link to="/notice">{item.text}</Link></li>
+                    ))}
+                  </ul>
                 </div>
-                <ul className="notice-list">
-                  {n.items.map((item, i) => (
-                    <li key={i}>
-                      <Link to="/notice">{item.text}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -62,20 +64,27 @@ export default function Home() {
             <h2 className="section-title">사찰 소식</h2>
             <Link to="/news" className="more-btn">더보기 +</Link>
           </div>
-          <div className="news-list">
-            {(news || NEWS).map((n, i) => (
-              <Link key={i} to="/news" className="news-item">
-                <div className="news-date">
-                  <div className="day">{n.day}</div>
-                  <div className="month">{n.month}</div>
-                </div>
-                <div className="news-content">
-                  <h4>{n.title}</h4>
-                  <p>{n.desc}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
+          {newsLoading ? (
+            <p style={{ color: 'var(--gray)', padding: '20px 0' }}>불러오는 중...</p>
+          ) : (
+            <div className="news-list">
+              {(news || []).map((n, i) => (
+                <Link key={i} to="/news" className="news-item">
+                  <div className="news-date">
+                    <div className="day">{n.day}</div>
+                    <div className="month">{n.month}</div>
+                  </div>
+                  <div className="news-content">
+                    <h4>{n.title}</h4>
+                    <p>{n.desc}</p>
+                  </div>
+                </Link>
+              ))}
+              {!news?.length && (
+                <p style={{ color: 'var(--gray)', padding: '20px 0' }}>등록된 소식이 없습니다.</p>
+              )}
+            </div>
+          )}
         </div>
       </section>
 

@@ -221,17 +221,6 @@ ul, li { list-style: none; }
 .tag-green { background: #e8f5e9; color: #2e7d32; }
 .tag-gold  { background: #fff8e1; color: #b8860b; }
 
-/* ════════════ EDUCATION CARDS ════════════ */
-.edu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-.edu-card {
-  background: #fff; border: 1px solid var(--border); border-radius: 8px;
-  padding: 28px; transition: box-shadow .2s;
-}
-.edu-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.08); }
-.edu-icon  { font-size: 38px; margin-bottom: 14px; }
-.edu-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: var(--dark); }
-.edu-card p  { font-size: 14px; color: var(--gray); line-height: 1.8; margin-bottom: 14px; }
-.edu-meta { font-size: 13px; color: var(--gold); font-weight: 600; }
 
 /* ════════════ ABOUT PAGE ════════════ */
 .about-section { padding: 56px 20px; }
@@ -467,9 +456,6 @@ ul, li { list-style: none; }
   /* 일정 */
   .schedule-table { font-size: 13px; }
   .schedule-table th, .schedule-table td { padding: 11px 10px; }
-
-  /* 교육 */
-  .edu-grid { grid-template-columns: 1fr; }
 
   /* 다르마 카드 */
   .dharma-card { padding: 22px 18px; }
