@@ -12,9 +12,14 @@ export default async function handler(req, res) {
   const token = process.env.NOTION_TOKEN
   const dbId  = process.env.NOTION_DHARMA_DB_ID
 
-  // 환경변수 미설정 시 fallback 안내
+  // 환경변수 미설정 시 디버그 정보 반환 (확인 후 null로 되돌릴 것)
   if (!token || !dbId) {
-    return res.status(200).json(null) // null 반환 → 프론트 fallback 사용
+    return res.status(200).json({
+      debug: true,
+      hasToken: !!token,
+      hasDbId: !!dbId,
+      tokenPrefix: token ? token.substring(0, 10) + '...' : 'missing',
+    })
   }
 
   try {
@@ -49,6 +54,6 @@ export default async function handler(req, res) {
     })
   } catch (err) {
     console.error('[dharma API]', err)
-    res.status(200).json(null) // 오류 시 fallback
+    res.status(200).json({ debug: true, error: err.message })
   }
 }
