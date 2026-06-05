@@ -9,13 +9,7 @@ module.exports = async function handler(req, res) {
   const token = process.env.NOTION_TOKEN
   const dbId  = process.env.NOTION_DHARMA_DB_ID
 
-  if (!token || !dbId) {
-    return res.status(200).json({
-      debug: true,
-      hasToken: !!token,
-      hasDbId: !!dbId,
-    })
-  }
+  if (!token || !dbId) return res.status(200).json(null)
 
   try {
     const response = await fetch(
@@ -49,6 +43,6 @@ module.exports = async function handler(req, res) {
     })
   } catch (err) {
     console.error('[dharma API]', err)
-    res.status(200).json({ debug: true, error: err.message })
+    res.status(200).json(null)
   }
 }

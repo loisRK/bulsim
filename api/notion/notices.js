@@ -31,11 +31,7 @@ module.exports = async function handler(req, res) {
     const data  = await response.json()
     const pages = data.results ?? []
 
-    const CATEGORY_MAP = {
-      '사중': '사중', '공지': '사중',
-      '교육': '교육',
-      '봉사': '봉사',
-    }
+    const CATEGORY_MAP = { '공지': '사중' }
 
     const items = pages.map(page => {
       const props    = page.properties

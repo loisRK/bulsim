@@ -135,7 +135,6 @@ function PhotoSlider({ images }) {
 /* ── 첨부파일 드롭다운 섹션 ── */
 function AttachmentSection({ propFiles, blockFiles }) {
   const [open, setOpen] = useState(false)
-  const bodyRef = useRef(null)
 
   const all = [
     ...propFiles,
@@ -160,7 +159,7 @@ function AttachmentSection({ propFiles, blockFiles }) {
       </button>
 
       {open && (
-        <ul className="attachment-list" ref={bodyRef}>
+        <ul className="attachment-list">
           {all.map((f, i) => (
             <li key={i}>
               <a
