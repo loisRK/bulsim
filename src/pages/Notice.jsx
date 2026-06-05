@@ -10,22 +10,40 @@ export default function Notice() {
   const { data, loading } = useNotion('/api/notion/notices', null)
   const navigate = useNavigate()
 
-  const [query,       setQuery]       = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
+  const [query,        setQuery]       = useState('')
+  const [selectedTag,  setSelectedTag] = useState('전체')
+  const [currentPage,  setCurrentPage] = useState(1)
 
   const allItems = data || []
 
-  // 검색 필터 (제목 기준)
-  const filtered = useMemo(() => {
-    if (!query.trim()) return allItems
-    const q = query.trim().toLowerCase()
-    return allItems.filter(item => item.title.toLowerCase().includes(q))
-  }, [allItems, query])
+  // 태그 목록 (데이터에서 동적으로 추출)
+  const tags = useMemo(() => {
+    const set = new Set(allItems.map(item => item.badge).filter(Boolean))
+    return ['전체', ...Array.from(set)]
+  }, [allItems])
 
-  // 검색어 변경 시 첫 페이지로
+  // 태그 + 검색 필터
+  const filtered = useMemo(() => {
+    let items = allItems
+    if (selectedTag !== '전체') {
+      items = items.filter(item => item.badge === selectedTag)
+    }
+    if (query.trim()) {
+      const q = query.trim().toLowerCase()
+      items = items.filter(item => item.title.toLowerCase().includes(q))
+    }
+    return items
+  }, [allItems, selectedTag, query])
+
   const handleSearch = e => {
     setQuery(e.target.value)
     setCurrentPage(1)
+  }
+
+  const handleTagSelect = tag => {
+    setSelectedTag(tag)
+    setCurrentPage(1)
+    setQuery('')
   }
 
   // 페이지네이션
@@ -54,94 +72,114 @@ export default function Notice() {
     <>
       <PageBanner title="공지사항" breadcrumb="사찰 소식" />
       <section className="section">
-        <div className="section-inner" style={{ maxWidth: 860 }}>
+        <div className="section-inner board-layout-outer">
+          <div className="board-layout">
 
-          {/* 검색창 */}
-          <div className="notice-search-bar">
-            <span className="notice-search-icon">🔍</span>
-            <input
-              type="text"
-              placeholder="공지사항 검색..."
-              value={query}
-              onChange={handleSearch}
-              className="notice-search-input"
-            />
-            {query && (
-              <button className="notice-search-clear" onClick={() => { setQuery(''); setCurrentPage(1) }}>
-                ✕
-              </button>
-            )}
-          </div>
+            {/* 좌측 태그 사이드바 */}
+            <aside className="board-sidebar">
+              <div className="board-sidebar-title">공지사항</div>
+              <ul className="board-tag-nav">
+                {tags.map(tag => (
+                  <li
+                    key={tag}
+                    className={`board-tag-item${selectedTag === tag ? ' active' : ''}`}
+                    onClick={() => handleTagSelect(tag)}
+                  >
+                    {selectedTag === tag && <span className="board-tag-dot">•</span>}
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            </aside>
 
-          {/* 검색 결과 수 */}
-          {query && (
-            <p className="notice-search-result">
-              <strong>"{query}"</strong> 검색 결과 {filtered.length}건
-            </p>
-          )}
+            {/* 우측 게시판 */}
+            <div className="board-main">
 
-          {/* 게시판 */}
-          {loading ? (
-            <p style={{ color: 'var(--gray)', padding: '40px 0', textAlign: 'center' }}>불러오는 중...</p>
-          ) : (
-            <>
-              <div className="notice-board">
-                <div className="notice-board-header">
-                  <span>분류</span>
-                  <span>제목</span>
-                  <span>날짜</span>
+              {/* 제목 + 검색창 */}
+              <div className="board-top-row">
+                <h2 className="board-heading">
+                  공지사항
+                  {selectedTag !== '전체' && (
+                    <> <span className="board-heading-sep">—</span> <span className="board-heading-tag">{selectedTag}</span></>
+                  )}
+                </h2>
+                <div className="notice-search-bar board-search-bar">
+                  <span className="notice-search-icon">🔍</span>
+                  <input
+                    type="text"
+                    placeholder="검색어를 입력해주세요."
+                    value={query}
+                    onChange={handleSearch}
+                    className="notice-search-input"
+                  />
+                  {query && (
+                    <button className="notice-search-clear" onClick={() => { setQuery(''); setCurrentPage(1) }}>✕</button>
+                  )}
                 </div>
-
-                {pageItems.length === 0 ? (
-                  <p style={{ color: 'var(--gray)', padding: '40px 0', textAlign: 'center' }}>
-                    {query ? '검색 결과가 없습니다.' : '등록된 공지가 없습니다.'}
-                  </p>
-                ) : (
-                  pageItems.map((item, i) => (
-                    <div key={i} className="notice-board-row" onClick={() => goToDetail(item)}>
-                      <span className={`notice-board-badge badge-${item.badge}`}>{item.badge}</span>
-                      <span className="notice-board-text">
-                        {query
-                          ? highlightText(item.title, query)
-                          : item.title
-                        }
-                      </span>
-                      <span className="notice-board-date">{item.month}</span>
-                      <span className="notice-board-arrow">›</span>
-                    </div>
-                  ))
-                )}
               </div>
 
-              {/* 페이지네이터 */}
-              {totalPages > 1 && (
-                <div className="paginator">
-                  {groupStart > 1 && (
-                    <button className="page-btn" onClick={() => setCurrentPage(groupStart - 1)}>‹</button>
-                  )}
-                  {pageNumbers.map(n => (
-                    <button
-                      key={n}
-                      className={`page-btn${n === page ? ' active' : ''}`}
-                      onClick={() => setCurrentPage(n)}
-                    >
-                      {n}
-                    </button>
-                  ))}
-                  {groupEnd < totalPages && (
-                    <button className="page-btn" onClick={() => setCurrentPage(groupEnd + 1)}>›</button>
-                  )}
-                </div>
+              {query && (
+                <p className="notice-search-result">
+                  <strong>"{query}"</strong> 검색 결과 {filtered.length}건
+                </p>
               )}
-            </>
-          )}
+
+              {/* 게시판 */}
+              {loading ? (
+                <p style={{ color: 'var(--gray)', padding: '40px 0', textAlign: 'center' }}>불러오는 중...</p>
+              ) : (
+                <>
+                  <div className="notice-board">
+                    {pageItems.length === 0 ? (
+                      <p style={{ color: 'var(--gray)', padding: '40px 0', textAlign: 'center' }}>
+                        {query ? '검색 결과가 없습니다.' : '등록된 공지가 없습니다.'}
+                      </p>
+                    ) : (
+                      pageItems.map((item, i) => (
+                        <div key={i} className="notice-board-row" onClick={() => goToDetail(item)}>
+                          <span className="notice-board-title-wrap">
+                            <span className={`notice-board-badge badge-${item.badge}`}>{item.badge}</span>
+                            <span className="notice-board-text">
+                              {query ? highlightText(item.title, query) : item.title}
+                            </span>
+                          </span>
+                          <span className="notice-board-date">{item.month}.{item.day}</span>
+                          <span className="notice-board-arrow">›</span>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  {/* 페이지네이터 */}
+                  {totalPages > 1 && (
+                    <div className="paginator">
+                      {groupStart > 1 && (
+                        <button className="page-btn" onClick={() => setCurrentPage(groupStart - 1)}>‹</button>
+                      )}
+                      {pageNumbers.map(n => (
+                        <button
+                          key={n}
+                          className={`page-btn${n === page ? ' active' : ''}`}
+                          onClick={() => setCurrentPage(n)}
+                        >
+                          {n}
+                        </button>
+                      ))}
+                      {groupEnd < totalPages && (
+                        <button className="page-btn" onClick={() => setCurrentPage(groupEnd + 1)}>›</button>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
         </div>
       </section>
     </>
   )
 }
 
-// 검색어 하이라이트
 function highlightText(text, query) {
   const idx = text.toLowerCase().indexOf(query.toLowerCase())
   if (idx === -1) return text

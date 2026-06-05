@@ -45,6 +45,7 @@ export default function App() {
           <Route path="/events/:id"    element={<ArticleDetail />} />
           <Route path="/volunteer"     element={<Volunteer />} />
           <Route path="/archive"       element={<Archive />} />
+          <Route path="/archive/:id"   element={<ArticleDetail />} />
         </Routes>
       </main>
       <Footer />
