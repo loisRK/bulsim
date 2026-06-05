@@ -537,7 +537,80 @@ ul, li { list-style: none; }
 .notice-row::before { content: '·'; color: var(--gold); font-size: 18px; flex-shrink: 0; }
 .notice-row:hover { background: #fff5e6; color: var(--dark); }
 
-/* ════════════ EVENT CARDS ════════════ */
+/* ════════════ EVENTS PAGE ════════════ */
+.events-layout {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 160px 1fr;
+  gap: 40px; padding: 56px 20px;
+  align-items: start;
+}
+
+/* 사이드바 */
+.events-sidebar {
+  position: sticky; top: 90px;
+}
+.year-filter { display: flex; flex-direction: column; gap: 0; }
+.year-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: none; border: none; cursor: pointer;
+  font-size: 15px; font-weight: 600; color: var(--gray);
+  padding: 10px 0; text-align: left; width: 100%;
+  transition: color .2s; font-family: inherit;
+  border-bottom: 1px solid var(--border);
+}
+.year-btn:hover { color: var(--dark); }
+.year-btn.active { color: var(--red); }
+.year-dot { color: var(--red); font-size: 18px; line-height: 1; }
+
+/* 행사 목록 */
+.events-list { display: flex; flex-direction: column; gap: 0; }
+.events-empty { color: var(--gray); padding: 40px 0; text-align: center; font-size: 15px; }
+
+/* 행사 카드 (가로형) */
+.event-card-row {
+  display: flex; gap: 24px; padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer; transition: background .15s;
+  align-items: flex-start;
+}
+.event-card-row:hover .event-card-title { color: var(--red); }
+
+.event-thumb {
+  flex-shrink: 0; width: 220px; height: 148px;
+  border-radius: 6px; overflow: hidden; background: var(--bg);
+}
+.event-thumb img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .3s;
+}
+.event-card-row:hover .event-thumb img { transform: scale(1.04); }
+.event-thumb-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px; background: var(--bg);
+}
+
+.event-card-info { flex: 1; min-width: 0; }
+.event-card-meta {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+}
+.event-card-date { font-size: 13px; color: var(--gray); }
+.event-card-title {
+  font-size: 20px; font-weight: 800; color: var(--dark);
+  line-height: 1.4; margin-bottom: 10px;
+  transition: color .2s;
+  /* 2줄 말줄임 */
+  display: -webkit-box; -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+.event-card-desc {
+  font-size: 14px; color: var(--gray); line-height: 1.8; margin-bottom: 12px;
+  display: -webkit-box; -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+.event-more { font-size: 13px; color: var(--red); font-weight: 600; }
+
+/* ════════════ EVENT CARDS (주요행사 상세, 기존) ════════════ */
 .event-card {
   background: #fff; border: 1px solid var(--border); border-radius: 8px;
   overflow: hidden; margin-bottom: 48px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
@@ -616,6 +689,22 @@ ul, li { list-style: none; }
   .event-photos img { height: 220px; border-right: none !important; border-bottom: 2px solid #fff; }
   .event-body { padding: 20px 18px; }
   .event-body h2 { font-size: 18px; }
+
+  /* 주요행사 */
+  .events-layout { grid-template-columns: 1fr; gap: 0; padding: 0; }
+  .events-sidebar {
+    position: static; display: flex; gap: 0;
+    padding: 16px 16px 0; overflow-x: auto;
+    border-bottom: 2px solid var(--border);
+  }
+  .year-filter { flex-direction: row; gap: 0; }
+  .year-btn { border-bottom: none; padding: 10px 16px; white-space: nowrap; font-size: 14px; }
+  .year-btn.active { border-bottom: 2px solid var(--red); }
+  .events-main { padding: 0 16px; }
+  .event-card-row { gap: 16px; padding: 20px 0; }
+  .event-thumb { width: 110px; height: 80px; border-radius: 4px; }
+  .event-card-title { font-size: 15px; margin-bottom: 6px; }
+  .event-card-desc { display: none; }
 
   /* 자원봉사 폼 */
   .vol-form-wrap { padding: 24px 18px; border-radius: 0; border-left: none; border-right: none; }

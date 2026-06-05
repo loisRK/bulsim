@@ -1,7 +1,8 @@
 /**
  * GET /api/notion/news
  * 사찰 소식 목록 조회
- * 본문은 페이지 블록에서 읽으므로 여기서는 목록 정보만 반환
+ * - 커버 이미지(썸네일): 노션 페이지 커버 이미지 사용
+ *   → 각 소식 페이지에서 "Add cover" 로 커버 이미지 설정하면 썸네일로 표시됨
  */
 module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end()
@@ -24,7 +25,7 @@ module.exports = async function handler(req, res) {
         body: JSON.stringify({
           filter: { property: '공개', checkbox: { equals: true } },
           sorts:  [{ property: '날짜', direction: 'descending' }],
-          page_size: 20,
+          page_size: 50,
         }),
       }
     )
@@ -38,16 +39,26 @@ module.exports = async function handler(req, res) {
         ? new Date(props['날짜'].date.start) : new Date()
       const titleProp = props['Name'] || props['제목'] || props['이름']
 
+      // 커버 이미지 → 썸네일로 사용
+      const cover = page.cover
+        ? page.cover.type === 'file'
+          ? page.cover.file?.url
+          : page.cover.external?.url
+        : null
+
       return {
         id:    page.id,
+        year:  date.getFullYear(),
         day:   String(date.getDate()).padStart(2, '0'),
         month: `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}`,
+        date:  props['날짜']?.date?.start ?? '',
         title: titleProp?.title?.[0]?.plain_text ?? '',
         desc:  props['내용']?.rich_text?.[0]?.plain_text ?? '',
         badge: props['배지']?.rich_text?.[0]?.plain_text ?? '',
         time:  props['일시']?.rich_text?.[0]?.plain_text ?? '',
         place: props['장소']?.rich_text?.[0]?.plain_text ?? '',
         host:  props['주관']?.rich_text?.[0]?.plain_text ?? '',
+        cover, // 썸네일
       }
     })
 
