@@ -11,7 +11,7 @@ export const TEMPLE = {
   englishName: "BULSIMJEONGSA TEMPLE",
   address: "인천광역시 남동구 무네미로312번길 47",
   tel: "032-466-8475",
-  email: "이메일을 입력해 주세요",
+  // email: "이메일을 입력해 주세요",
   greeting:
     "불심정사는 거마산 자락에 위치한 청정 도량으로, 부처님의 가르침 아래 대중과 함께 수행하고 정진하는 공간입니다.",
   greetingLong: `불심정사를 찾아주신 여러분을 진심으로 환영합니다.
@@ -79,16 +79,31 @@ export const NAV = [
       { label: "공지사항", href: "/notice" },
       { label: "사찰일정", href: "/schedule" },
       { label: "주요행사", href: "/events" },
-      { label: "자료실",   href: "/archive" },
+      { label: "자료실", href: "/archive" },
     ],
   },
 ];
 
 export const QUICK_LINKS = [
-  { icon: "schedule",  label: "법회안내", sub: "매주 일요법회", href: "/schedule" },
-  { icon: "notice",    label: "공지사항", sub: "사찰 공지 보기", href: "/notice" },
-  { icon: "volunteer", label: "봉사신청", sub: "자원봉사 신청", href: "/volunteer" },
-  { icon: "location",  label: "오시는 길", sub: "찾아오는 방법", href: "/about#location" },
+  {
+    icon: "schedule",
+    label: "법회안내",
+    sub: "매주 일요법회",
+    href: "/schedule",
+  },
+  { icon: "notice", label: "공지사항", sub: "사찰 공지 보기", href: "/notice" },
+  {
+    icon: "volunteer",
+    label: "봉사신청",
+    sub: "자원봉사 신청",
+    href: "/volunteer",
+  },
+  {
+    icon: "location",
+    label: "오시는 길",
+    sub: "찾아오는 방법",
+    href: "/about#location",
+  },
 ];
 
 export const SLIDES = [

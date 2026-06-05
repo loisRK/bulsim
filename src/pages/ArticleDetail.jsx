@@ -49,7 +49,7 @@ export default function ArticleDetail() {
 
         {/* 사진 슬라이더 */}
         {!loading && imageBlocks.length > 0 && (
-          <div style={{ marginBottom: 28 }}>
+          <div style={{ marginBottom: 24 }}>
             <PhotoSlider images={imageBlocks} />
           </div>
         )}

@@ -664,6 +664,8 @@ ul, li { list-style: none; }
 .cal-cell.selected { background: #fff5f5; }
 .cal-cell.sun .cal-day { color: #c0392b; }
 .cal-cell.sat .cal-day { color: #2980b9; }
+.cal-cell.other.sun .cal-day { color: #e0a8a0; }
+.cal-cell.other.sat .cal-day { color: #a0bfd6; }
 .cal-cell.today .cal-day { color: #fff !important; }
 .cal-day { font-size: 14px; font-weight: 500; display: inline-block; line-height: 26px; padding: 0 2px; }
 .cal-dots { display: flex; gap: 3px; margin-top: 4px; flex-wrap: wrap; }
@@ -772,7 +774,7 @@ ul, li { list-style: none; }
 .article-header {
   padding: 28px 0 0;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 .article-meta {
   display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
@@ -786,7 +788,7 @@ ul, li { list-style: none; }
 
 .article-body {
   font-size: 15px; color: var(--gray); line-height: 1.85;
-  padding-top: 4px;
+  padding-top: 0;
 }
 .article-body .block-content { gap: 8px; }
 
