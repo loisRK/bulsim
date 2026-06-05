@@ -1,12 +1,13 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import HeroSlider from '../components/HeroSlider'
 import DharmaCard from '../components/DharmaCard'
 import { useNotion } from '../hooks/useNotion'
 import { QUICK_LINKS, NOTICES, SCHEDULE } from '../data/staticData'
 
 export default function Home() {
+  const navigate = useNavigate()
   const { data: notices, loading: noticesLoading } = useNotion('/api/notion/notices', NOTICES)
-  const { data: news,    loading: newsLoading }    = useNotion('/api/notion/news',    null)
+  const { data: events,  loading: eventsLoading }  = useNotion('/api/notion/news',    null)
 
   return (
     <>
@@ -56,30 +57,41 @@ export default function Home() {
       </section>
 
       {/* 사찰 소식 */}
+      {/* 주요행사 요약 */}
       <section className="section" style={{ background: '#fff' }}>
         <div className="section-inner">
           <div className="section-header">
-            <h2 className="section-title">사찰 소식</h2>
-            <Link to="/news" className="more-btn">더보기 +</Link>
+            <h2 className="section-title">주요 행사</h2>
+            <Link to="/events" className="more-btn">더보기 +</Link>
           </div>
-          {newsLoading ? (
+          {eventsLoading ? (
             <p style={{ color: 'var(--gray)', padding: '20px 0' }}>불러오는 중...</p>
           ) : (
-            <div className="news-list">
-              {(news || []).map((n, i) => (
-                <Link key={i} to="/news" className="news-item">
-                  <div className="news-date">
-                    <div className="day">{n.day}</div>
-                    <div className="month">{n.month}</div>
+            <div className="home-events-list">
+              {(events || []).slice(0, 3).map((item, i) => (
+                <div
+                  key={i}
+                  className="home-event-card"
+                  onClick={() => navigate(`/events/${item.id}`, { state: { item } })}
+                >
+                  <div className="home-event-thumb">
+                    {item.cover
+                      ? <img src={item.cover} alt={item.title} />
+                      : <div className="home-event-placeholder">🪷</div>
+                    }
                   </div>
-                  <div className="news-content">
-                    <h4>{n.title}</h4>
-                    <p>{n.desc}</p>
+                  <div className="home-event-info">
+                    <div className="home-event-meta">
+                      {item.badge && <span className="event-badge">{item.badge}</span>}
+                      <span style={{ fontSize: 12, color: 'var(--gray)' }}>{item.month}</span>
+                    </div>
+                    <h4 className="home-event-title">{item.title}</h4>
+                    {item.desc && <p className="home-event-desc">{item.desc}</p>}
                   </div>
-                </Link>
+                </div>
               ))}
-              {!news?.length && (
-                <p style={{ color: 'var(--gray)', padding: '20px 0' }}>등록된 소식이 없습니다.</p>
+              {(!events || events.length === 0) && (
+                <p style={{ color: 'var(--gray)', padding: '20px 0' }}>등록된 행사가 없습니다.</p>
               )}
             </div>
           )}

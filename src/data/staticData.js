@@ -74,10 +74,12 @@ export const NAV = [
   },
   {
     label: "사찰 소식",
-    href: "/news",
+    href: "/notice",
     sub: [
       { label: "공지사항", href: "/notice" },
-      { label: "주요 행사", href: "/events" },
+      { label: "사찰일정", href: "/schedule" },
+      { label: "주요행사", href: "/events" },
+      { label: "자료실",   href: "/archive" },
     ],
   },
 ];

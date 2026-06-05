@@ -10,6 +10,7 @@ import News          from './pages/News'
 import Events        from './pages/Events'
 import Volunteer     from './pages/Volunteer'
 import ArticleDetail from './pages/ArticleDetail'
+import Archive       from './pages/Archive'
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation()
@@ -43,6 +44,7 @@ export default function App() {
           <Route path="/events"        element={<Events />} />
           <Route path="/events/:id"    element={<ArticleDetail />} />
           <Route path="/volunteer"     element={<Volunteer />} />
+          <Route path="/archive"       element={<Archive />} />
         </Routes>
       </main>
       <Footer />

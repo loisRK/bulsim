@@ -76,12 +76,6 @@ export default function ArticleDetail() {
           )}
         </div>
 
-        {/* 하단 목록으로 */}
-        <div className="article-footer">
-          <button className="article-back-bottom" onClick={() => navigate(-1)}>
-            ← 목록으로 돌아가기
-          </button>
-        </div>
 
       </div>
     </div>
