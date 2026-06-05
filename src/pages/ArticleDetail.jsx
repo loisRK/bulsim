@@ -21,7 +21,8 @@ export default function ArticleDetail() {
   }, [id])
 
   const imageBlocks = blocks.filter(b => b.type === 'image')
-  const textBlocks  = blocks.filter(b => b.type !== 'image')
+  const fileBlocks  = blocks.filter(b => b.type === 'file')
+  const textBlocks  = blocks.filter(b => b.type !== 'image' && b.type !== 'file')
   const hasInfo     = item?.time || item?.place || item?.host
 
   return (
@@ -36,13 +37,6 @@ export default function ArticleDetail() {
 
       <div className="article-container">
 
-        {/* 사진 슬라이더 */}
-        {!loading && imageBlocks.length > 0 && (
-          <div style={{ marginTop: 20 }}>
-            <PhotoSlider images={imageBlocks} />
-          </div>
-        )}
-
         {/* 헤더 */}
         <div className="article-header">
           <div className="article-meta">
@@ -51,6 +45,13 @@ export default function ArticleDetail() {
           </div>
           <h1 className="article-title">{item?.title ?? '소식'}</h1>
         </div>
+
+        {/* 사진 슬라이더 */}
+        {!loading && imageBlocks.length > 0 && (
+          <div style={{ marginBottom: 28 }}>
+            <PhotoSlider images={imageBlocks} />
+          </div>
+        )}
 
         {/* 본문 */}
         <div className="article-body">
@@ -74,6 +75,12 @@ export default function ArticleDetail() {
               {item.host  && <div><strong>주관</strong>{item.host}</div>}
             </div>
           )}
+
+          {/* 첨부파일 — 프로퍼티 방식 + 페이지 내 file 블록 방식 통합 */}
+          <AttachmentSection
+            propFiles={item?.attachments ?? []}
+            blockFiles={fileBlocks}
+          />
         </div>
 
 
@@ -125,28 +132,110 @@ function PhotoSlider({ images }) {
   )
 }
 
+/* ── 첨부파일 다운로드 섹션 ── */
+function AttachmentSection({ propFiles, blockFiles }) {
+  // 프로퍼티 방식 + 블록 방식 합산, 중복 URL 제거
+  const all = [
+    ...propFiles,
+    ...blockFiles.map(b => ({ name: b.name, url: b.url })),
+  ].filter((f, idx, arr) => f.url && arr.findIndex(x => x.url === f.url) === idx)
+
+  if (all.length === 0) return null
+
+  return (
+    <div className="attachment-section">
+      <div className="attachment-title">📎 첨부파일</div>
+      <ul className="attachment-list">
+        {all.map((f, i) => (
+          <li key={i}>
+            <a
+              href={f.url}
+              download
+              target="_blank"
+              rel="noopener noreferrer"
+              className="attachment-item"
+            >
+              <span className="attachment-icon">⬇</span>
+              <span className="attachment-name">{f.name}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+/* ── 인라인 세그먼트 렌더링 (링크·볼드·이탤릭 지원) ── */
+function RichText({ segments, text }) {
+  // 구버전 호환: segments 없으면 plain text fallback
+  if (!segments || segments.length === 0) return <>{text}</>
+  return (
+    <>
+      {segments.map((seg, i) => {
+        let node = <>{seg.text}</>
+        if (seg.bold)   node = <strong key={i}>{node}</strong>
+        if (seg.italic) node = <em key={i}>{node}</em>
+        if (seg.href) {
+          return (
+            <a
+              key={i}
+              href={seg.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block-link"
+            >
+              {seg.text}
+            </a>
+          )
+        }
+        return <span key={i} style={seg.bold ? { fontWeight: 700 } : seg.italic ? { fontStyle: 'italic' } : undefined}>{seg.text}</span>
+      })}
+    </>
+  )
+}
+
 /* ── 블록 렌더링 ── */
 function BlockRenderer({ blocks }) {
+  let numberIdx = 0
   return (
     <div className="block-content">
       {blocks.map((b, i) => {
+        if (b.type !== 'number') numberIdx = 0
         switch (b.type) {
           case 'paragraph':
-            return b.text ? <p key={i}>{b.text}</p> : <br key={i} />
+            return b.text ? (
+              <p key={i}><RichText segments={b.segments} text={b.text} /></p>
+            ) : <br key={i} />
           case 'heading_1':
-            return <h2 key={i} className="block-h1">{b.text}</h2>
+            return <h2 key={i} className="block-h1"><RichText segments={b.segments} text={b.text} /></h2>
           case 'heading_2':
-            return <h3 key={i} className="block-h2">{b.text}</h3>
+            return <h3 key={i} className="block-h2"><RichText segments={b.segments} text={b.text} /></h3>
           case 'heading_3':
-            return <h4 key={i} className="block-h3">{b.text}</h4>
+            return <h4 key={i} className="block-h3"><RichText segments={b.segments} text={b.text} /></h4>
           case 'bullet':
-            return <div key={i} className="block-bullet"><span>·</span>{b.text}</div>
-          case 'number':
-            return <div key={i} className="block-number"><span>{i + 1}.</span>{b.text}</div>
+            return (
+              <div key={i} className="block-bullet">
+                <span>·</span>
+                <RichText segments={b.segments} text={b.text} />
+              </div>
+            )
+          case 'number': {
+            numberIdx++
+            return (
+              <div key={i} className="block-number">
+                <span>{numberIdx}.</span>
+                <RichText segments={b.segments} text={b.text} />
+              </div>
+            )
+          }
           case 'divider':
             return <hr key={i} className="block-divider" />
           case 'quote':
-            return <blockquote key={i} className="block-quote">{b.text}</blockquote>
+            return (
+              <blockquote key={i} className="block-quote">
+                <RichText segments={b.segments} text={b.text} />
+              </blockquote>
+            )
           default:
             return null
         }

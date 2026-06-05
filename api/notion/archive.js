@@ -37,6 +37,13 @@ module.exports = async function handler(req, res) {
       const date     = props['날짜']?.date?.start
         ? new Date(props['날짜'].date.start) : new Date()
 
+      // 첨부파일 (Files & media 프로퍼티 — 여러 파일 지원)
+      const filesProp = props['첨부파일'] || props['파일'] || props['Files'] || props['files']
+      const attachments = (filesProp?.files ?? []).map(f => ({
+        name: f.name || '파일',
+        url:  f.type === 'external' ? f.external?.url : f.file?.url,
+      })).filter(f => f.url)
+
       return {
         pageId: page.id,
         title:  titleProp?.title?.[0]?.plain_text ?? '',
@@ -44,6 +51,7 @@ module.exports = async function handler(req, res) {
         month:  `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}`,
         day:    String(date.getDate()).padStart(2, '0'),
         desc:   props['내용']?.rich_text?.[0]?.plain_text ?? '',
+        attachments,
       }
     }).filter(item => item.title)
 

@@ -31,27 +31,34 @@ module.exports = async function handler(req, res) {
       const type = block.type
       const b    = block[type]
 
-      // 리치 텍스트 → plain text 변환
+      // 리치 텍스트 → 세그먼트 배열 (링크·볼드·이탤릭 보존)
+      const richToSegments = (arr = []) => arr.map(r => ({
+        text:   r.plain_text,
+        href:   r.href ?? r.text?.link?.url ?? null,
+        bold:   r.annotations?.bold   ?? false,
+        italic: r.annotations?.italic ?? false,
+      }))
+
       const richToText = (arr = []) => arr.map(r => r.plain_text).join('')
 
       switch (type) {
         case 'paragraph':
-          return { type: 'paragraph', text: richToText(b.rich_text) }
+          return { type: 'paragraph', segments: richToSegments(b.rich_text), text: richToText(b.rich_text) }
 
         case 'heading_1':
-          return { type: 'heading_1', text: richToText(b.rich_text) }
+          return { type: 'heading_1', segments: richToSegments(b.rich_text), text: richToText(b.rich_text) }
 
         case 'heading_2':
-          return { type: 'heading_2', text: richToText(b.rich_text) }
+          return { type: 'heading_2', segments: richToSegments(b.rich_text), text: richToText(b.rich_text) }
 
         case 'heading_3':
-          return { type: 'heading_3', text: richToText(b.rich_text) }
+          return { type: 'heading_3', segments: richToSegments(b.rich_text), text: richToText(b.rich_text) }
 
         case 'bulleted_list_item':
-          return { type: 'bullet', text: richToText(b.rich_text) }
+          return { type: 'bullet', segments: richToSegments(b.rich_text), text: richToText(b.rich_text) }
 
         case 'numbered_list_item':
-          return { type: 'number', text: richToText(b.rich_text) }
+          return { type: 'number', segments: richToSegments(b.rich_text), text: richToText(b.rich_text) }
 
         case 'image': {
           const url = b.type === 'external' ? b.external?.url : b.file?.url
@@ -63,7 +70,13 @@ module.exports = async function handler(req, res) {
           return { type: 'divider' }
 
         case 'quote':
-          return { type: 'quote', text: richToText(b.rich_text) }
+          return { type: 'quote', segments: richToSegments(b.rich_text), text: richToText(b.rich_text) }
+
+        case 'file': {
+          const fileUrl = b.type === 'external' ? b.external?.url : b.file?.url
+          const fileName = b.name || richToText(b.caption) || '첨부파일'
+          return { type: 'file', url: fileUrl, name: fileName }
+        }
 
         default:
           return null

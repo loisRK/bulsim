@@ -61,7 +61,7 @@ export default function Archive() {
 
   const goToDetail = item => {
     navigate(`/archive/${item.pageId}`, {
-      state: { item: { id: item.pageId, title: item.title, badge: item.badge, month: item.month, day: item.day, desc: item.desc } }
+      state: { item: { id: item.pageId, title: item.title, badge: item.badge, month: item.month, day: item.day, desc: item.desc, attachments: item.attachments ?? [] } }
     })
   }
 
