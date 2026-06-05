@@ -12,8 +12,18 @@ import Volunteer     from './pages/Volunteer'
 import ArticleDetail from './pages/ArticleDetail'
 
 function ScrollToTop() {
-  const { pathname } = useLocation()
-  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  const { pathname, hash } = useLocation()
+  useEffect(() => {
+    if (hash) {
+      // 해시가 있으면 해당 섹션으로 스크롤
+      setTimeout(() => {
+        const el = document.querySelector(hash)
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 100) // 페이지 렌더 후 실행
+    } else {
+      window.scrollTo(0, 0)
+    }
+  }, [pathname, hash])
   return null
 }
 

@@ -32,23 +32,24 @@ export default function ArticleDetail() {
         <button className="article-back" onClick={() => navigate(-1)}>
           ← 목록으로
         </button>
-        {item?.badge && <span className="event-badge">{item.badge}</span>}
       </div>
 
       <div className="article-container">
 
         {/* 사진 슬라이더 */}
         {!loading && imageBlocks.length > 0 && (
-          <PhotoSlider images={imageBlocks} />
+          <div style={{ marginTop: 20 }}>
+            <PhotoSlider images={imageBlocks} />
+          </div>
         )}
 
         {/* 헤더 */}
         <div className="article-header">
           <div className="article-meta">
+            {item?.badge && <span className="event-badge">{item.badge}</span>}
             {item?.month && <span className="article-date">{item.month}.{item.day}</span>}
           </div>
           <h1 className="article-title">{item?.title ?? '소식'}</h1>
-          <div className="article-divider" />
         </div>
 
         {/* 본문 */}
@@ -76,7 +77,7 @@ export default function ArticleDetail() {
         </div>
 
         {/* 하단 목록으로 */}
-        <div style={{ padding: '32px 0', borderTop: '1px solid var(--border)', marginTop: 32 }}>
+        <div className="article-footer">
           <button className="article-back-bottom" onClick={() => navigate(-1)}>
             ← 목록으로 돌아가기
           </button>

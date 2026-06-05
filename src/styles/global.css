@@ -223,7 +223,7 @@ ul, li { list-style: none; }
 
 
 /* ════════════ ABOUT PAGE ════════════ */
-.about-section { padding: 56px 20px; }
+.about-section { padding: 56px 20px; scroll-margin-top: 80px; }
 .about-section:nth-child(even) { background: #fff; }
 .about-section-inner { max-width: 900px; margin: 0 auto; }
 .about-section h2 {
@@ -540,32 +540,62 @@ ul, li { list-style: none; }
 /* ════════════ ARTICLE DETAIL ════════════ */
 .article-nav-bar {
   max-width: 860px; margin: 0 auto;
-  padding: 20px 20px 0;
-  display: flex; align-items: center; gap: 14px;
+  padding: 28px 20px 16px;
+  display: flex; align-items: center; gap: 10px;
 }
 .article-back {
+  display: inline-flex; align-items: center;
   background: none; border: 1px solid var(--border);
   color: var(--gray); font-size: 13px; font-weight: 600;
-  padding: 7px 14px; border-radius: 20px; cursor: pointer;
-  font-family: inherit; transition: all .2s;
+  padding: 6px 14px; border-radius: 20px; cursor: pointer;
+  font-family: inherit; transition: all .2s; white-space: nowrap;
 }
 .article-back:hover { border-color: var(--red); color: var(--red); }
+
 .article-container {
-  max-width: 860px; margin: 0 auto; padding: 0 20px 60px;
+  max-width: 860px; margin: 0 auto; padding: 0 20px 72px;
+}
+
+/* 상세페이지 전용 슬라이더 — 이미지 전체 보이도록 */
+.photo-slider.full-width {
+  border-radius: 10px;           /* 상하 모두 라운드 */
+  background: #111;
+  margin-bottom: 0;
 }
 .photo-slider.full-width .photo-slide img {
-  height: 460px;
+  height: 480px;
+  object-fit: contain;           /* 잘리지 않고 전체 표시 */
+  background: #111;
 }
-.article-header { padding: 28px 0 0; }
-.article-meta { margin-bottom: 10px; }
+
+.article-header {
+  padding: 28px 0 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+}
+.article-meta {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+}
 .article-date { font-size: 13px; color: var(--gray); }
 .article-title {
   font-size: 26px; font-weight: 800; color: var(--dark);
-  line-height: 1.4; margin-bottom: 16px;
+  line-height: 1.45; margin-bottom: 20px;
 }
-.article-divider { width: 40px; height: 3px; background: var(--red); margin-bottom: 28px; }
-.article-body { font-size: 15px; color: var(--gray); line-height: 2; }
+.article-divider { display: none; } /* 헤더 border-bottom으로 대체 */
+
+.article-body {
+  font-size: 15px; color: var(--gray); line-height: 2;
+  padding-top: 4px;
+}
+.article-body .block-content { gap: 8px; }
+
+.article-footer {
+  padding: 32px 0 0;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
 .article-back-bottom {
+  display: inline-flex; align-items: center;
   background: none; border: 1px solid var(--border);
   color: var(--gray); font-size: 14px; font-weight: 600;
   padding: 10px 20px; border-radius: 4px; cursor: pointer;
@@ -762,8 +792,11 @@ ul, li { list-style: none; }
   .event-body h2 { font-size: 18px; }
 
   /* 상세 페이지 */
+  .article-nav-bar { padding: 20px 16px 12px; }
+  .article-container { padding: 0 16px 56px; }
   .article-title { font-size: 20px; }
-  .photo-slider.full-width .photo-slide img { height: 260px; }
+  .photo-slider.full-width { border-radius: 8px; }
+  .photo-slider.full-width .photo-slide img { height: 280px; }
   .notice-board-date { display: none; }
 
   /* 주요행사 */
