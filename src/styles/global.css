@@ -531,6 +531,117 @@ ul, li { list-style: none; }
   font-size: 12px; text-align: center; color: rgba(255,255,255,.35);
 }
 
+/* ════════════ TEMPLE CALENDAR ════════════ */
+.cal-wrap {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 10px; padding: 28px 28px 20px; margin-bottom: 20px;
+}
+.cal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 24px;
+}
+.cal-title { font-size: 20px; font-weight: 700; color: var(--dark); }
+.cal-year-text  { color: var(--red); margin-right: 4px; }
+.cal-month-text { color: var(--red); }
+.cal-title-suffix { color: var(--dark); }
+.cal-nav { display: flex; gap: 8px; }
+.cal-nav-btn {
+  background: none; border: 1px solid var(--border);
+  width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+  font-size: 16px; color: var(--gray); transition: all .2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.cal-nav-btn:hover { border-color: var(--red); color: var(--red); }
+
+.cal-body { display: grid; grid-template-columns: 1fr 220px; gap: 28px; }
+
+/* 달력 그리드 */
+.cal-grid-wrap { position: relative; }
+.cal-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr);
+  border-top: 1px solid var(--border);
+}
+.cal-dow {
+  padding: 10px 0; text-align: center;
+  font-size: 13px; font-weight: 700; color: var(--gray);
+  border-bottom: 1px solid var(--border);
+}
+.cal-dow.sun { color: #c0392b; }
+.cal-dow.sat { color: #2980b9; }
+.cal-cell {
+  min-height: 72px; padding: 8px 6px 4px;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid transparent;
+  cursor: pointer; transition: background .15s;
+  position: relative;
+}
+.cal-cell:hover:not(.other) { background: var(--bg); }
+.cal-cell.other .cal-day { color: #ccc; }
+.cal-cell.other { cursor: default; }
+.cal-cell.today .cal-day {
+  background: var(--red); color: #fff;
+  width: 26px; height: 26px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+}
+.cal-cell.selected { background: #fff5f5; }
+.cal-cell.sun .cal-day { color: #c0392b; }
+.cal-cell.sat .cal-day { color: #2980b9; }
+.cal-cell.today .cal-day { color: #fff !important; }
+.cal-day { font-size: 14px; font-weight: 500; display: inline-block; line-height: 26px; padding: 0 2px; }
+.cal-dots { display: flex; gap: 3px; margin-top: 4px; flex-wrap: wrap; }
+.cal-dot  { width: 6px; height: 6px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+
+/* 날짜 클릭 팝업 */
+.cal-popup {
+  margin-top: 12px; padding: 14px 16px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; border-left: 3px solid var(--red);
+}
+.cal-popup-title { font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+.cal-popup-item  { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 8px; }
+.cal-popup-dot   { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.cal-popup-name  { font-size: 14px; font-weight: 600; color: var(--dark); }
+.cal-popup-desc  { font-size: 12px; color: var(--gray); margin-top: 2px; }
+
+/* 연간 월 선택 */
+.cal-year-panel  { position: relative; overflow: hidden; }
+.cal-year-bg {
+  position: absolute; top: -10px; right: -10px;
+  font-size: 100px; font-weight: 900; color: rgba(0,0,0,0.06);
+  line-height: 1; user-select: none; letter-spacing: -4px;
+}
+.cal-months-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+  position: relative; z-index: 1; margin-top: 8px;
+}
+.cal-month-btn {
+  background: rgba(0,0,0,0.05); border: none; border-radius: 4px;
+  padding: 10px 0; font-size: 13px; font-weight: 600; color: var(--gray);
+  cursor: pointer; transition: all .2s; font-family: inherit;
+}
+.cal-month-btn:hover { background: rgba(0,0,0,0.1); color: var(--dark); }
+.cal-month-btn.active { background: var(--red); color: #fff; }
+
+/* 범례 */
+.cal-legend {
+  display: flex; gap: 16px; margin-top: 16px;
+  padding-top: 14px; border-top: 1px solid var(--border);
+}
+.cal-legend-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--gray);
+}
+
+/* 모바일 달력 */
+@media (max-width: 768px) {
+  .cal-wrap { padding: 18px 14px 16px; }
+  .cal-body { grid-template-columns: 1fr; gap: 20px; }
+  .cal-year-panel { display: none; }
+  .cal-cell { min-height: 52px; padding: 6px 4px 4px; }
+  .cal-day { font-size: 13px; }
+}
+
 /* ════════════ DHARMA CARD ════════════ */
 #dharma-section {
   background: linear-gradient(135deg, #1a1a2e 0%, #3d1515 100%);
