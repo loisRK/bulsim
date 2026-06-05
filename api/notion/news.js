@@ -1,10 +1,7 @@
 /**
  * GET /api/notion/news
  * 사찰 소식 목록 조회
- *
- * Notion DB 속성:
- *   제목(Title), 내용(Text, 짧은 요약), 본문(Text, 전체 내용),
- *   사진URL(URL), 날짜(Date), 공개(Checkbox)
+ * 본문은 페이지 블록에서 읽으므로 여기서는 목록 정보만 반환
  */
 module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end()
@@ -12,7 +9,6 @@ module.exports = async function handler(req, res) {
 
   const token = process.env.NOTION_TOKEN
   const dbId  = process.env.NOTION_NEWS_DB_ID
-
   if (!token || !dbId) return res.status(200).json(null)
 
   try {
@@ -39,20 +35,19 @@ module.exports = async function handler(req, res) {
     const news = pages.map(page => {
       const props = page.properties
       const date  = props['날짜']?.date?.start
-        ? new Date(props['날짜'].date.start)
-        : new Date()
-
-      // 제목: "제목" 또는 "Name" 모두 지원
-      const titleProp = props['제목'] || props['Name'] || props['이름']
+        ? new Date(props['날짜'].date.start) : new Date()
+      const titleProp = props['Name'] || props['제목'] || props['이름']
 
       return {
-        id:     page.id,
-        day:    String(date.getDate()).padStart(2, '0'),
-        month:  `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}`,
-        title:  titleProp?.title?.[0]?.plain_text ?? '',
-        desc:   props['내용']?.rich_text?.[0]?.plain_text ?? '',
-        body:   props['본문']?.rich_text?.map(r => r.plain_text).join('') ?? '',
-        photo:  props['사진URL']?.url ?? null,
+        id:    page.id,
+        day:   String(date.getDate()).padStart(2, '0'),
+        month: `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}`,
+        title: titleProp?.title?.[0]?.plain_text ?? '',
+        desc:  props['내용']?.rich_text?.[0]?.plain_text ?? '',
+        badge: props['배지']?.rich_text?.[0]?.plain_text ?? '',
+        time:  props['일시']?.rich_text?.[0]?.plain_text ?? '',
+        place: props['장소']?.rich_text?.[0]?.plain_text ?? '',
+        host:  props['주관']?.rich_text?.[0]?.plain_text ?? '',
       }
     })
 
