@@ -38,20 +38,18 @@ export default function Home() {
           {noticesLoading ? (
             <p style={{ color: 'var(--gray)', padding: '20px 0' }}>불러오는 중...</p>
           ) : (
-            <div className="notice-grid">
-              {(notices || []).map(n => (
-                <div key={n.id} className="notice-card">
-                  <div className="notice-card-head">
-                    <span className="notice-badge">{n.badge}</span>
-                    <span>{n.title}</span>
-                  </div>
-                  <ul className="notice-list">
-                    {n.items.map((item, i) => (
-                      <li key={i}><Link to="/notice">{item.text}</Link></li>
-                    ))}
-                  </ul>
-                </div>
+            <div className="notice-board" style={{ marginBottom: 0 }}>
+              {(notices || []).slice(0, 5).map((item, i) => (
+                <Link key={i} to="/notice" className="notice-board-row" style={{ textDecoration: 'none' }}>
+                  <span className={`notice-board-badge badge-${item.badge}`}>{item.badge}</span>
+                  <span className="notice-board-text">{item.title}</span>
+                  <span className="notice-board-date">{item.month}</span>
+                  <span className="notice-board-arrow">›</span>
+                </Link>
               ))}
+              {(!notices || notices.length === 0) && (
+                <p style={{ color: 'var(--gray)', padding: '20px 0', textAlign: 'center' }}>등록된 공지가 없습니다.</p>
+              )}
             </div>
           )}
         </div>

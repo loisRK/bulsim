@@ -1,6 +1,6 @@
 /**
  * GET /api/notion/notices
- * 공지사항 목록 — 카테고리별 그룹핑, 각 항목에 pageId 포함
+ * 공지사항 — 플랫 리스트로 반환 (카테고리 태그 포함)
  */
 module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end()
@@ -30,49 +30,31 @@ module.exports = async function handler(req, res) {
 
     const data  = await response.json()
     const pages = data.results ?? []
-    const groups = {}
 
     const CATEGORY_MAP = {
-      '사중': { badge: '사중', title: '공지사항' },
-      '공지': { badge: '사중', title: '공지사항' },
-      '교육': { badge: '교육', title: '불교 교육' },
-      '봉사': { badge: '봉사', title: '자원봉사' },
+      '사중': '사중', '공지': '사중',
+      '교육': '교육',
+      '봉사': '봉사',
     }
 
-    pages.forEach(page => {
+    const items = pages.map(page => {
       const props    = page.properties
       const titleProp = props['제목'] || props['Name'] || props['이름']
       const title    = titleProp?.title?.[0]?.plain_text ?? ''
       const category = props['분류']?.select?.name ?? '사중'
-      const info     = CATEGORY_MAP[category] ?? { badge: category, title: '공지사항' }
-
-      const date = props['날짜']?.date?.start
+      const date     = props['날짜']?.date?.start
         ? new Date(props['날짜'].date.start) : new Date()
 
-      const cover = page.cover
-        ? page.cover.type === 'file'
-          ? page.cover.file?.url
-          : page.cover.external?.url
-        : null
-
-      if (!groups[category]) {
-        groups[category] = { id: category, badge: info.badge, title: info.title, items: [] }
+      return {
+        pageId: page.id,
+        title,
+        badge:  CATEGORY_MAP[category] ?? category,
+        month:  `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}`,
+        day:    String(date.getDate()).padStart(2, '0'),
       }
+    }).filter(item => item.title)
 
-      if (title) {
-        groups[category].items.push({
-          pageId: page.id,
-          text:   title,
-          date:   props['날짜']?.date?.start ?? '',
-          month:  `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}`,
-          day:    String(date.getDate()).padStart(2, '0'),
-          badge:  info.badge,
-          cover,
-        })
-      }
-    })
-
-    res.status(200).json(Object.values(groups))
+    res.status(200).json(items)
   } catch (err) {
     console.error('[notices API]', err)
     res.status(200).json(null)

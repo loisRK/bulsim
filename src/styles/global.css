@@ -519,23 +519,6 @@ ul, li { list-style: none; }
 .dharma-source { font-size: 13px; color: var(--gold-lt); }
 .dharma-date   { font-size: 12px; color: rgba(255,255,255,0.4); }
 
-/* ════════════ NOTICE TABS (notice.html) ════════════ */
-.notice-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--red); margin-bottom: 28px; flex-wrap: wrap; }
-.notice-tab {
-  padding: 11px 20px; font-size: 14px; font-weight: 700; cursor: pointer;
-  color: var(--gray); border: 1px solid var(--border); border-bottom: none;
-  background: var(--bg); transition: all .2s; margin-right: 4px; border-radius: 4px 4px 0 0;
-}
-.notice-tab.active { background: var(--red); color: #fff; border-color: var(--red); }
-.notice-panel { display: none; }
-.notice-panel.active { display: block; }
-.notice-row {
-  display: flex; align-items: baseline; gap: 12px;
-  padding: 14px 16px; border-bottom: 1px solid var(--border);
-  font-size: 15px; color: var(--gray); transition: background .15s; cursor: pointer;
-}
-.notice-row::before { content: '·'; color: var(--gold); font-size: 18px; flex-shrink: 0; }
-.notice-row:hover { background: #fff5e6; color: var(--dark); }
 
 /* ════════════ ARTICLE DETAIL ════════════ */
 .article-nav-bar {
@@ -603,8 +586,42 @@ ul, li { list-style: none; }
 }
 .article-back-bottom:hover { border-color: var(--red); color: var(--red); }
 
+/* ════════════ NOTICE SEARCH ════════════ */
+.notice-search-bar {
+  display: flex; align-items: center; gap: 10px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 10px 16px; background: #fff; margin-bottom: 8px;
+  transition: border-color .2s;
+}
+.notice-search-bar:focus-within { border-color: var(--red); }
+.notice-search-icon { font-size: 16px; flex-shrink: 0; }
+.notice-search-input {
+  flex: 1; border: none; outline: none;
+  font-size: 15px; font-family: inherit; color: var(--dark);
+  background: transparent;
+}
+.notice-search-input::placeholder { color: #bbb; }
+.notice-search-clear {
+  background: none; border: none; cursor: pointer;
+  color: var(--gray); font-size: 14px; padding: 2px 4px;
+  transition: color .2s; flex-shrink: 0;
+}
+.notice-search-clear:hover { color: var(--red); }
+.notice-search-result {
+  font-size: 13px; color: var(--gray); margin-bottom: 16px; padding: 0 4px;
+}
+
 /* ════════════ NOTICE BOARD ════════════ */
-.notice-board { border-top: 2px solid var(--dark); margin-bottom: 24px; }
+.notice-board { margin-bottom: 24px; }
+.notice-board-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-bottom: 2px solid var(--dark);
+  font-size: 12px; font-weight: 700; color: var(--gray);
+  letter-spacing: .5px;
+}
+.notice-board-header span:first-child  { flex-shrink: 0; width: 44px; }
+.notice-board-header span:nth-child(2) { flex: 1; }
+.notice-board-header span:nth-child(3) { flex-shrink: 0; width: 64px; text-align: right; }
 .notice-board-row {
   display: flex; align-items: center; gap: 12px;
   padding: 14px 12px; border-bottom: 1px solid var(--border);
@@ -612,15 +629,19 @@ ul, li { list-style: none; }
 }
 .notice-board-row:hover { background: var(--bg); }
 .notice-board-badge {
-  flex-shrink: 0; background: var(--red); color: #fff;
-  font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 2px;
+  flex-shrink: 0; color: #fff;
+  font-size: 11px; font-weight: 700;
+  padding: 3px 8px; border-radius: 3px; min-width: 36px; text-align: center;
 }
+.badge-사중 { background: var(--red); }
+.badge-교육 { background: #1a56db; }
+.badge-봉사 { background: #2e7d32; }
 .notice-board-text {
   flex: 1; color: var(--dark); font-weight: 500;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .notice-board-row:hover .notice-board-text { color: var(--red); }
-.notice-board-date { flex-shrink: 0; font-size: 12px; color: var(--gray); }
+.notice-board-date { flex-shrink: 0; font-size: 12px; color: var(--gray); width: 64px; text-align: right; }
 .notice-board-arrow { flex-shrink: 0; color: var(--border); font-size: 18px; }
 
 /* ════════════ PAGINATOR ════════════ */
