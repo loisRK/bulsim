@@ -1,22 +1,22 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PageBanner from '../components/PageBanner'
-import NewsModal  from '../components/NewsModal'
 import { useNotion } from '../hooks/useNotion'
 
 export default function Events() {
   const { data: news, loading } = useNotion('/api/notion/news', null)
   const [selectedYear, setSelectedYear] = useState('전체')
-  const [selected, setSelected] = useState(null)
+  const navigate = useNavigate()
 
-  const list = news || []
-
-  // 연도 목록 추출
+  const list  = news || []
   const years = ['전체', ...Array.from(new Set(list.map(n => String(n.year)))).sort((a, b) => b - a)]
-
-  // 연도 필터 적용
   const filtered = selectedYear === '전체'
     ? list
     : list.filter(n => String(n.year) === selectedYear)
+
+  const goToDetail = item => {
+    navigate(`/events/${item.id}`, { state: { item } })
+  }
 
   return (
     <>
@@ -43,24 +43,18 @@ export default function Events() {
 
         {/* 메인 콘텐츠 */}
         <main className="events-main">
-          {loading && (
-            <p className="events-empty">불러오는 중...</p>
-          )}
+          {loading && <p className="events-empty">불러오는 중...</p>}
           {!loading && filtered.length === 0 && (
             <p className="events-empty">등록된 행사가 없습니다.</p>
           )}
           <div className="events-list">
             {filtered.map((item, i) => (
-              <EventCard key={i} item={item} onClick={() => setSelected(item)} />
+              <EventCard key={i} item={item} onClick={() => goToDetail(item)} />
             ))}
           </div>
         </main>
 
       </div>
-
-      {selected && (
-        <NewsModal item={selected} onClose={() => setSelected(null)} />
-      )}
     </>
   )
 }
@@ -68,15 +62,12 @@ export default function Events() {
 function EventCard({ item, onClick }) {
   return (
     <div className="event-card-row" onClick={onClick}>
-      {/* 썸네일 */}
       <div className="event-thumb">
         {item.cover
           ? <img src={item.cover} alt={item.title} />
           : <div className="event-thumb-placeholder">🪷</div>
         }
       </div>
-
-      {/* 내용 */}
       <div className="event-card-info">
         <div className="event-card-meta">
           {item.badge && <span className="event-badge">{item.badge}</span>}
@@ -84,7 +75,7 @@ function EventCard({ item, onClick }) {
         </div>
         <h3 className="event-card-title">{item.title}</h3>
         {item.desc && <p className="event-card-desc">{item.desc}</p>}
-        <span className="event-more">더보기</span>
+        <span className="event-more">더보기 →</span>
       </div>
     </div>
   )
