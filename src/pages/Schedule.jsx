@@ -22,7 +22,7 @@ export default function Schedule() {
 
       {/* 정기 법회 일정표 */}
       <section className="section" style={{ background: '#fff' }}>
-        <div className="section-inner" style={{ maxWidth: 900 }}>
+        <div className="section-inner">
           <div className="section-header">
             <h2 className="section-title">정기 법회 일정</h2>
           </div>

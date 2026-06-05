@@ -170,8 +170,8 @@ ul, li { list-style: none; }
   color: var(--gold);
   font-size: 20px; font-weight: 800; margin-bottom: 6px;
 }
-.quick-label { font-size: 15px; font-weight: 700; }  /* ↑ 퀵링크 굵게 */
-.quick-sub   { font-size: 12px; opacity: .8; }
+.quick-label { font-size: 16px; font-weight: 700; letter-spacing: 0.04em; }
+.quick-sub   { font-size: 13px; opacity: .85; letter-spacing: 0.02em; }
 
 /* ════════════ SECTION COMMON ════════════ */
 .section { padding: 60px 20px; }
@@ -233,14 +233,15 @@ ul, li { list-style: none; }
 .news-content p   { font-size: 13px; color: var(--gray); line-height: 1.7; }
 
 /* ════════════ SCHEDULE TABLE ════════════ */
-.schedule-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.schedule-table { width: 100%; border-collapse: collapse; font-size: 16px; }
 .schedule-table th {
   background: var(--red); color: #fff;
-  padding: 14px 16px; text-align: left; font-weight: 700; font-size: 14px;
+  padding: 16px 20px; text-align: left; font-weight: 700; font-size: 15px;
+  letter-spacing: 0.03em;
 }
-.schedule-table td { padding: 13px 16px; border-bottom: 1px solid var(--border); color: var(--gray); font-size: 14px; }
+.schedule-table td { padding: 15px 20px; border-bottom: 1px solid var(--border); color: var(--gray); font-size: 15px; line-height: 1.6; }
 .schedule-table tr:hover td { background: #fff5e6; color: var(--dark); }
-.tag { display: inline-block; font-size: 12px; padding: 3px 9px; border-radius: 10px; font-weight: 600; }
+.tag { display: inline-block; font-size: 13px; padding: 4px 11px; border-radius: 10px; font-weight: 600; letter-spacing: 0.02em; }
 .tag-blue  { background: #e8f0fe; color: #1a56db; }
 .tag-green { background: #e8f5e9; color: #2e7d32; }
 .tag-gold  { background: #fff8e1; color: #b8860b; }
@@ -847,8 +848,9 @@ ul, li { list-style: none; }
 }
 .notice-board-badge {
   flex-shrink: 0; color: #fff;
-  font-size: 11px; font-weight: 700;
-  padding: 3px 8px; border-radius: 3px; min-width: 36px; text-align: center;
+  font-size: 12px; font-weight: 600;
+  padding: 4px 10px; border-radius: 3px; min-width: 40px; text-align: center;
+  letter-spacing: 0.03em;
 }
 .badge-사중 { background: var(--red); }
 .badge-교육 { background: #1a56db; }
@@ -1016,8 +1018,8 @@ ul, li { list-style: none; }
   .news-content p  { font-size: 13px; }
 
   /* 일정 */
-  .schedule-table { font-size: 13px; }
-  .schedule-table th, .schedule-table td { padding: 11px 10px; }
+  .schedule-table { font-size: 14px; }
+  .schedule-table th, .schedule-table td { padding: 12px 12px; }
 
   /* 다르마 카드 */
   .dharma-card { padding: 22px 18px; }
